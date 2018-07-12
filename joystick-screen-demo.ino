@@ -48,8 +48,39 @@
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
+typedef struct {
+  int xpos;
+  int ypos;
+  
+} dotpos; // not complete
 
-int dotpos = 0; // dot position
+dotpos leftJoystickPos = {-1, 0}
+dotpos rightJoystickPos = {-1, 0}
+
+int dotpos = -1; // dot position
+
+void moveChar(int AI, int line) {
+  while ((dotpos < 16) && ((analogRead(AI) / 100) > 5)) {
+    lcd.clear();
+    lcd.setCursor(dotpos, line);
+    lcd.print("_");
+    dotpos++;
+    delay(100);
+    
+  }
+
+  while ((dotpos > -1) && (analogRead(AI) / 100 < 5)) {
+    lcd.clear();
+    lcd.setCursor(dotpos, line);
+    lcd.print("_");
+    dotpos--;
+    delay(100);
+
+    
+  }
+
+  
+}
 
 void setup() {
   // set up the LCD's number of columns and rows:
@@ -61,33 +92,12 @@ void loop() {
   lcd.setCursor(0,0);
 
 
-  while ((dotpos < 10) && (analogRead(A1) > 506)) {
-    lcd.setCursor(dotpos,0);
-    lcd.print("_");
-    delay(100);
-    dotpos++;
-    
-  }
-
-  while ((dotpos > -1) && (analogRead(A1) < 506)) {
-    lcd.setCursor(dotpos,0);
-    lcd.print(" ");
-    delay(100);
-    dotpos--;
-    
-  }
-  
+  moveChar(A1, 0);
+  moveChar(A4, 1);
 
   
-  // set the cursor to column 0, line 1
-  // (note: line 1 is the second row, since counting begins with 0):
-  lcd.setCursor(0, 1);
-  // print the number of seconds since reset:
-  lcd.print("                ");
-  lcd.setCursor(0, 1);
-  lcd.print(analogRead(A1));
-  lcd.print("    ");
-  lcd.print(analogRead(A2));
-  delay(100);
+
+
+
 }
 
