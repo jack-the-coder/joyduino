@@ -49,34 +49,30 @@ const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 
-int dotpos = 0;
+int dotpos = 0; // dot position
 
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  
-  lcd.print(".");
 
-  lcd.cursor();
 }
 
 void loop() {
-  int spcnt = analogRead(A1) / 100;
   lcd.setCursor(0,0);
 
 
-  while ((spcnt > 5) && (analogRead(A1) > 506)) {
-    lcd.print(".");
-    delay(10);
-    spcnt--;
+  while ((dotpos < 10) && (analogRead(A1) > 506)) {
+    lcd.setCursor(dotpos,0);
+    lcd.print("_");
+    delay(100);
     dotpos++;
     
   }
 
-  while ((dotpos > 0) && (analogRead(A1) < 506)) {
+  while ((dotpos > -1) && (analogRead(A1) < 506)) {
     lcd.setCursor(dotpos,0);
     lcd.print(" ");
-    delay(10);
+    delay(100);
     dotpos--;
     
   }
@@ -92,6 +88,6 @@ void loop() {
   lcd.print(analogRead(A1));
   lcd.print("    ");
   lcd.print(analogRead(A2));
-  delay(1000);
+  delay(100);
 }
 
