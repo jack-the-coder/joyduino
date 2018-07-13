@@ -136,7 +136,7 @@ void loop() {
     ++distance;
   }
 
-  delay(500/sqrt(distance + 1));
+  delay(750/sqrt(distance + 1));
 }
 
 
